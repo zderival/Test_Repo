@@ -11,7 +11,7 @@ def fetch_potential_articles(preferences, page_size):
         params = {"q": preferences, "apiKey": api_key}
         fetched_articles = fetch_articles(api_url,params=params,page_size=page_size)
         potential_articles.extend(fetched_articles)
-        return potential_articles
+    return potential_articles
 
 def get_recommendations(saved_articles,potential_articles):
     # Save user's saved articles lists, as well as their preferred topic list
