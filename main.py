@@ -3,7 +3,7 @@ import NewsManagment
 from Login import User, cursor, conn
 import Profile
 from NewsManagment import NewsManager, api_url2, articles_isEmpty
-from Recomendations import fetch_articles, get_recommendations, fetch_potential_articles
+from Recomendations import get_recommendations, fetch_potential_articles
 
 if __name__ == "__main__":
     deleted = False
@@ -70,7 +70,7 @@ if __name__ == "__main__":
             match option:
                 case 1:
                     print("Latest news: ")
-                    articles = NewsManagment.print_article(api_url2, page_size=user.profile.page_size)
+                    articles = NewsManagment.print_article(api_url2, page_size= user.profile.page_size)
                     NewsManagment.prompt_articles_save(articles, user)
                     continue
                 case 2:
@@ -104,7 +104,8 @@ if __name__ == "__main__":
                         continue
                     for i, article in enumerate(recommendations,start =1):
                         print(f"{i}) {article}")
-                    NewsManagment.prompt_articles_save((recommendations,{}),user)
+                    rec_ids = {i: article for i, article in enumerate(recommendations, start=1)}
+                    NewsManagment.prompt_articles_save((recommendations, rec_ids),user)
                 case 5:
                     preferences = input("What types of articles do you wish to see (comma separated): ").lower().strip().split(",")
                     user.profile.article_preferences = preferences

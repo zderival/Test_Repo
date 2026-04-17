@@ -1,15 +1,16 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from NewsManagment import fetch_articles, articles_to_df, api_url
+from NewsManagment import fetch_articles, articles_to_df
 import os
 
 api_key = os.getenv("NEWS_API_KEY")
 def fetch_potential_articles(preferences, page_size):
     potential_articles = []
-    for preferences in preferences:
-        params = {"q": preferences, "apiKey": api_key}
-        fetched_articles = fetch_articles(api_url,params=params,page_size=page_size)
+    for preference in preferences:
+        url = "https://newsapi.org/v2/everything"
+        params = {"q": preference, "apiKey": api_key}
+        fetched_articles = fetch_articles(url,params=params,page_size=page_size)
         potential_articles.extend(fetched_articles)
     return potential_articles
 
