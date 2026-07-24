@@ -125,12 +125,12 @@ class Profile:
         conn.commit()
         user.username = new_username
         print("Username changed")
-
-    def delete_profile(self):
+    @staticmethod
+    def delete_profile(user):
         conn = db.get_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         sql = """DELETE FROM "user" WHERE id = %s;"""
-        cursor.execute(sql,(self.id,))
+        cursor.execute(sql,(user,))
         conn.commit()
         print("Account deleted")
         return True

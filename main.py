@@ -260,7 +260,7 @@ if __name__ == "__main__":
                                     confirm = input(
                                         "Are you sure? All data will be deleted. (Type yes or no): ").lower()
                                     if confirm == "yes":
-                                        user.profile.delete_profile()
+                                        user.profile.delete_profile(user.id)
                                         deleted = True
                                         break
                                     elif confirm == "no":

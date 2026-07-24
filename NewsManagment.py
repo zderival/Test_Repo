@@ -40,7 +40,6 @@ class Article:
 def fetch_articles(url, params= None, page_size=20):
     if params is None:
         params = {}
-    global total_number_of_articles_fetched
     articles = []
     params["pageSize"] = page_size
     response = requests.get(url, headers=headers, params = params)
@@ -57,7 +56,6 @@ def fetch_articles(url, params= None, page_size=20):
             author=article_data.get("author", "")
         )
         articles.append(article)
-    total_number_of_articles_fetched = data.get("totalResults", 0)
     return articles
 
 def articles_to_df(articles):
@@ -82,38 +80,9 @@ class NewsManager:
     @staticmethod
     # will return saved preference data from DB
     def filter_topics(user_list):
-        user_topics = user_list
-        formatted = [topic.title() for topic in user_topics]
+        formatted = [topic.title() for topic in user_list]
         output = ",".join(formatted)
         return output
-
-    @staticmethod
-    def filter_by_date(articles, time_range):
-        now = datetime.now(timezone.utc)
-        if time_range == "Last 24 hours":
-            cutoff = now - timedelta(hours=24)
-        elif time_range == "Past week":
-            cutoff = now - timedelta(days=7)
-        elif time_range == "Past month":
-            cutoff = now - timedelta(days=30)
-        elif time_range == "Past year":
-            cutoff = now - timedelta(days=365)
-        else:
-            return articles
-        return [a for a in articles if a.publishedAt >= cutoff]
-
-    def sort_articles(self, user_list, sort_how, filter_date_bool, filter_date):
-        if filter_date_bool:
-            user_list = self.filter_by_date(user_list,filter_date)
-
-        if sort_how == "A-Z":
-            return sorted(user_list, key= lambda x: x.title)
-        elif sort_how == "Z-A":
-            return sorted(user_list, key= lambda x: x.title, reverse=True)
-
-    @staticmethod
-    def fetch_articles_by_preferences(user_list):
-        pass
 
     @staticmethod
     def save_articles(choice_list,ids,user):
